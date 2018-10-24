@@ -5,18 +5,18 @@ Safe Copy Dynamodb Table
 
 This module will allow you to copy data from one table to another using very simple API, Support cross zone copying and AWS config for each table ( source & destination ) and it can create the destination table using source table schema
 
-[![Dependencies](https://david-dm.org/enGMzizo/copy-dynamodb-table.png)](https://david-dm.org/enGMzizo/copy-dynamodb-table) [![NPM version](https://badge.fury.io/js/copy-dynamodb-table.png)](http://badge.fury.io/js/copy-dynamodb-table)
+[![Dependencies](https://david-dm.org/enGMzizo/copy-dynamodb-table.png)](https://david-dm.org/enGMzizo/copy-dynamodb-table) [![NPM version](https://badge.fury.io/js/copy-dynamodb-table-encrypt.png)](http://badge.fury.io/js/copy-dynamodb-table-encrypt)
 
-[![NPM](https://nodei.co/npm/copy-dynamodb-table.png)](http://nodei.co/npm/copy-dynamodb-table)
+[![NPM](https://nodei.co/npm/copy-dynamodb-table-encrypt.png)](http://nodei.co/npm/copy-dynamodb-table-encrypt)
 
 ## Installation
 
-    npm i copy-dynamodb-table
+    npm i copy-dynamodb-table-encrypt
 
 ## Usage :
 
 ```js
-var copy = require('copy-dynamodb-table').copy
+var copy = require('copy-dynamodb-table-encrypt').copy
 
 copy({
     source: {
@@ -39,7 +39,7 @@ copy({
 ## Adding AWS Config :
 
 ```js
-var copy = require('copy-dynamodb-table').copy
+var copy = require('copy-dynamodb-table-encrypt').copy
 
 var globalAWSConfig = { // AWS Configuration object http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/Config.html#constructor-property
   accessKeyId: 'AKID',
@@ -69,7 +69,7 @@ copy({
 ## AWS Config for each table ( cross region ) :
 
 ```js
-var copy = require('copy-dynamodb-table').copy
+var copy = require('copy-dynamodb-table-encrypt').copy
 
 var globalAWSConfig = { // AWS Configuration object http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/Config.html#constructor-property
   accessKeyId: 'AKID',
