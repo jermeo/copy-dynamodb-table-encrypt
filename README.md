@@ -1,7 +1,7 @@
 Safe Copy Dynamodb Table
 ===================
 
-NB: this fork add existence test for the destination table and optionnal encryption
+## NB: this fork from copy-dynamodb-table add existence test for the destination table and optionnal encryption
 
 This module will allow you to copy data from one table to another using very simple API, Support cross zone copying and AWS config for each table ( source & destination ) and it can create the destination table using source table schema
 
@@ -26,7 +26,8 @@ copy({
       tableName: 'destination_table_name', // required
     },
     log: true, // default false
-    create : true // create destination table if not exist
+    create : true, // create destination table if not exist
+    encrypt: true // force encrypt the destination table if the source is not...
   },
   function (err, result) {
     if (err) {
@@ -120,7 +121,7 @@ copy({
 
 ## Contributors :
 
-- Ezzat [@enGMzizo](https://twitter.com/enGMzizo)
+- Jermeo
 
 ## License :
 
