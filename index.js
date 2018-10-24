@@ -50,12 +50,19 @@ function copy(values, fn) {
       }
       options.source.active = true
       data.Table.TableName = options.destination.tableName
-      options.destination.dynamodb.createTable(clearTableSchema(data.Table),function(err){
-        if(err && err.code !== 'ResourceInUseException'){
-          return fn(err,data)
+
+      existDestTable(options,function(err,exist){
+        if(!exist) {
+          options.destination.dynamodb.createTable(clearTableSchema(data.Table, values.encrypt),function(err){
+            if(err && err.code !== 'ResourceInUseException'){
+              return fn(err,data)
+            }
+            waitForActive(options,fn)
+            // wait for TableStatus to be ACTIVE
+          })
+        } else {
+          return fn(new Error("table " + options.destination.tableName + " exist in destination"))
         }
-        waitForActive(options,fn)
-        // wait for TableStatus to be ACTIVE
       })
     })
   }
@@ -69,7 +76,20 @@ function copy(values, fn) {
 
 }
 
-function clearTableSchema(table){
+function existDestTable(options, callback){
+  return options.destination.dynamodb.describeTable({TableName : options.destination.tableName},function(err){
+    if(err){
+      if(err.code === 'ResourceNotFoundException') {
+        return callback(null,false)
+      } else {
+        throw err
+      }
+    }
+    return callback(null,true)
+  })
+}
+
+function clearTableSchema(table, encrypt){
 
   delete table.TableStatus
   delete table.CreationDateTime
@@ -117,6 +137,12 @@ function clearTableSchema(table){
       Enabled: (table.SSEDescription.Status === 'ENABLED' || table.SSEDescription.Status === 'ENABLING')
     }
     delete table.SSEDescription
+  }
+
+  if(encrypt) {
+    table.SSESpecification = {
+      Enabled: true
+    }
   }
 
   return table
