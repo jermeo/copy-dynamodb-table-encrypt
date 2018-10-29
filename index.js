@@ -52,7 +52,9 @@ function copy(values, fn) {
       data.Table.TableName = options.destination.tableName
 
       existDestTable(options,function(err,exist){
-        if(!exist) {
+        if(err) {
+          return fn(err)
+        } else if(!exist) {
           options.destination.dynamodb.createTable(clearTableSchema(data.Table, values.encrypt),function(err){
             if(err && err.code !== 'ResourceInUseException'){
               return fn(err,data)
