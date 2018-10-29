@@ -3,7 +3,7 @@ var AWS = require('aws-sdk')
 var validate = require('./validate')
 var readline = require('readline')
 
-function copy(values, fn) {
+function copy(values, fn, keepDBClient) {
 
   try {
     validate.config(values)
@@ -21,13 +21,13 @@ function copy(values, fn) {
     source: {
       tableName: values.source.tableName,
       dynamoClient: values.source.dynamoClient || new AWS.DynamoDB.DocumentClient(values.source.config || values.config),
-      dynamodb: values.source.dynamodb || new AWS.DynamoDB(values.source.config || values.config),
+      dynamodb: !keepDBClient ? new AWS.DynamoDB(values.source.config || values.config) : values.source.dynamodb,
       active: values.source.active
     },
     destination: {
       tableName: values.destination.tableName,
       dynamoClient: values.destination.dynamoClient || new AWS.DynamoDB.DocumentClient(values.destination.config || values.config),
-      dynamodb: values.source.dynamodb || new AWS.DynamoDB(values.destination.config || values.config),
+      dynamodb: !keepDBClient ? new AWS.DynamoDB(values.destination.config || values.config) : values.destination.dynamodb,
       active:values.destination.active,
       createTableStr : 'Creating Destination Table '
     },
@@ -216,7 +216,7 @@ function startCopying(options,fn){
           status: 'SUCCESS'
         })
       }
-      copy(options, fn)
+      copy(options, fn, true)
     })
   })
 }
