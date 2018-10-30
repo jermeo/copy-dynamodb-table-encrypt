@@ -1,6 +1,6 @@
 {
   "name": "copy-dynamodb-table-encrypt",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "description": "Copy Dynamodb table to another in the same or different zone and encrypt if needed, It is 100% safe , and speed depends on your destination table user defined write provisioned throughput",
   "keywords": [
     "dynamodb",

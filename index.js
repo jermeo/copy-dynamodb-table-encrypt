@@ -6,11 +6,8 @@ var readline = require('readline')
 function copy(values, fn) {
 
   try {
-    console.log('before validation')
     validate.config(values)
   } catch (err) {
-    console.log('error validation')
-    console.log(err)
     return fn(err, {
       count: 0,
       status: 'FAIL'
