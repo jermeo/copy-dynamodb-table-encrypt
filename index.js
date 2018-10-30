@@ -8,12 +8,10 @@ function copy(values, fn) {
   try {
     validate.config(values)
   } catch (err) {
-    if (err) {
-      return fn(err, {
-        count: 0,
-        status: 'FAIL'
-      })
-    }
+    return fn(err, {
+      count: 0,
+      status: 'FAIL'
+    })
   }
 
   var options = {

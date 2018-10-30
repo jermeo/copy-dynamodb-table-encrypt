@@ -11,8 +11,8 @@ var validate = function (options, field) {
   if (typeof options[field].tableName !== 'string') {
     throw new ConfigError('InvalidConfig', field + '.tableName should be string')
   }
-  if (options[field].tableName.length === 0) {
-    throw new ConfigError('InvalidConfig', field + '.tableName length should be more than 0')
+  if (options[field].tableName.length < 3 || options[field].tableName.length > 255 ) {
+    throw new ConfigError('InvalidConfig', field + '.tableName length should be between 3 and 255)
   }
 }
 
