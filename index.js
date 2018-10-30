@@ -51,7 +51,7 @@ function copy(values, fn) {
       options.source.active = true
       data.Table.TableName = options.destination.tableName
 
-      existDestinationTable(options,function(err,exist){
+      return existDestinationTable(options,function(err,exist){
         if(err) {
           return fn(err)
         } else if(!exist) {
