@@ -5,10 +5,6 @@ Safe Copy Dynamodb Table
 
 This module will allow you to copy data from one table to another using very simple API, Support cross zone copying and AWS config for each table ( source & destination ) and it can create the destination table using source table schema
 
-[![Dependencies](https://david-dm.org/enGMzizo/copy-dynamodb-table.png)](https://david-dm.org/enGMzizo/copy-dynamodb-table) [![NPM version](https://badge.fury.io/js/copy-dynamodb-table-encrypt.png)](http://badge.fury.io/js/copy-dynamodb-table-encrypt)
-
-[![NPM](https://nodei.co/npm/copy-dynamodb-table-encrypt.png)](http://nodei.co/npm/copy-dynamodb-table-encrypt)
-
 ## Installation
 
     npm i copy-dynamodb-table-encrypt

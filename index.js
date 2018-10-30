@@ -51,7 +51,7 @@ function copy(values, fn) {
       options.source.active = true
       data.Table.TableName = options.destination.tableName
 
-      existDestTable(options,function(err,exist){
+      existDestinationTable(options,function(err,exist){
         if(err) {
           return fn(err)
         } else if(!exist) {
@@ -78,7 +78,7 @@ function copy(values, fn) {
 
 }
 
-function existDestTable(options, callback){
+function existDestinationTable(options, callback){
   return options.destination.dynamodb.describeTable({TableName : options.destination.tableName},function(err){
     if(err){
       if(err.code === 'ResourceNotFoundException') {
