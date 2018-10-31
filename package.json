@@ -1,6 +1,6 @@
 {
   "name": "copy-dynamodb-table-encrypt",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Copy Dynamodb table to another in the same or different account, copy tags and encrypt if needed",
   "keywords": [
     "dynamodb",
