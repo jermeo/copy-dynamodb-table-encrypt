@@ -20,13 +20,15 @@ function copy(values, fn) {
       tableName: values.source.tableName,
       dynamoClient: values.source.dynamoClient || new AWS.DynamoDB.DocumentClient(values.source.config || values.config),
       dynamodb: values.source.dynamodb || new AWS.DynamoDB(values.source.config || values.config),
-      active: values.source.active
+      active: values.source.active,
+      tableArn: values.source.tableArn
     },
     destination: {
       tableName: values.destination.tableName,
       dynamoClient: values.destination.dynamoClient || new AWS.DynamoDB.DocumentClient(values.destination.config || values.config),
       dynamodb: values.destination.dynamodb || new AWS.DynamoDB(values.destination.config || values.config),
       active:values.destination.active,
+      tableArn: values.destination.tableArn,
       createTableStr : 'Creating Destination Table '
     },
     key: values.key,
@@ -157,6 +159,7 @@ function checkTables(options,fn){
       return fn(new Error('Source table not active'),null)
     }
     options.source.active = true
+    options.source.tableArn = sourceData.TableArn
     options.destination.dynamodb.describeTable({TableName : options.destination.tableName},function(err,destData){
       if(err){
         return fn(err,destData)
@@ -165,6 +168,7 @@ function checkTables(options,fn){
         return fn(new Error('Destination table not active'),null)
       }
       options.destination.active = true
+      options.destination.tableArn = destData.TableArn
       fn(null)
     })
   })
@@ -189,7 +193,7 @@ function waitForActive(options,fn){
       options.destination.active = true
 
       // copy tags
-      options.source.dynamodb.listTagsOfResource({ResourceArn: data.Table.TableArn}, function(err, dataTags) {
+      options.source.dynamodb.listTagsOfResource({ResourceArn: options.source.tableArn}, function(err, dataTags) {
         if(err){
           return fn(err,data)
         }
@@ -197,7 +201,7 @@ function waitForActive(options,fn){
           startCopying(options,fn)
         } else {
           options.destination.dynamodb.tagResource({
-            ResourceArn: data.Table.TableArn,
+            ResourceArn: options.destination.tableArn,
             Tags: dataTags.Tags
           }, function(err, data) {
             if(err){
