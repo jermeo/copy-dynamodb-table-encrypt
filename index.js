@@ -14,8 +14,6 @@ function copy(values, fn) {
     })
   }
 
-  console.log('go')
-
   var options = {
     config: values.config,
     source: {
@@ -189,7 +187,23 @@ function waitForActive(options,fn){
       }
       options.create = false
       options.destination.active = true
-      startCopying(options,fn)
+
+      // copy tags
+      options.destination.dynamodb.listTagsOfResource({ResourceArn: data.Table.TableArn}, function(err, data) {
+        if(err){
+          return fn(err,data)
+        }
+        options.destination.dynamodb.tagResource({
+          ResourceArn: data.Table.TableArn,
+          Tags: data.Tags
+        }, function(err, data) {
+          if(err){
+            return fn(err,data)
+          }
+          startCopying(options,fn)
+        });
+      });
+      
     })
   },1000) // check every second
 }
