@@ -189,19 +189,23 @@ function waitForActive(options,fn){
       options.destination.active = true
 
       // copy tags
-      options.destination.dynamodb.listTagsOfResource({ResourceArn: data.Table.TableArn}, function(err, dataTags) {
+      options.source.dynamodb.listTagsOfResource({ResourceArn: data.Table.TableArn}, function(err, dataTags) {
         if(err){
           return fn(err,data)
         }
-        options.destination.dynamodb.tagResource({
-          ResourceArn: data.Table.TableArn,
-          Tags: dataTags.Tags
-        }, function(err, data) {
-          if(err){
-            return fn(err,data)
-          }
+        if (!dataTags.Tags || dataTags.Tags.length ===0) {
           startCopying(options,fn)
-        });
+        } else {
+          options.destination.dynamodb.tagResource({
+            ResourceArn: data.Table.TableArn,
+            Tags: dataTags.Tags
+          }, function(err, data) {
+            if(err){
+              return fn(err,data)
+            }
+            startCopying(options,fn)
+          });
+        }      
       });
       
     })
