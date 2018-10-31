@@ -159,7 +159,7 @@ function checkTables(options,fn){
       return fn(new Error('Source table not active'),null)
     }
     options.source.active = true
-    options.source.tableArn = sourceData.TableArn
+    options.source.tableArn = sourceData.Table.TableArn
     options.destination.dynamodb.describeTable({TableName : options.destination.tableName},function(err,destData){
       if(err){
         return fn(err,destData)
@@ -168,7 +168,7 @@ function checkTables(options,fn){
         return fn(new Error('Destination table not active'),null)
       }
       options.destination.active = true
-      options.destination.tableArn = destData.TableArn
+      options.destination.tableArn = destData.Table.TableArn
       fn(null)
     })
   })
