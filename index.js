@@ -189,13 +189,13 @@ function waitForActive(options,fn){
       options.destination.active = true
 
       // copy tags
-      options.destination.dynamodb.listTagsOfResource({ResourceArn: data.Table.TableArn}, function(err, data) {
+      options.destination.dynamodb.listTagsOfResource({ResourceArn: data.Table.TableArn}, function(err, dataTags) {
         if(err){
           return fn(err,data)
         }
         options.destination.dynamodb.tagResource({
           ResourceArn: data.Table.TableArn,
-          Tags: data.Tags
+          Tags: dataTags.Tags
         }, function(err, data) {
           if(err){
             return fn(err,data)
